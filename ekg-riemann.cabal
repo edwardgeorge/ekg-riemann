@@ -20,12 +20,15 @@ library
                        System.Remote.Monitoring.Riemann
                        System.Remote.Monitoring.Riemann.Internal
   build-depends:       base >= 4.7 && < 5
+                     , bytestring
+                     , cereal
                      , ekg-core
                      , network
                      , protobuf
                      , text
                      , unordered-containers
   default-language:    Haskell2010
+  default-extensions:  NoImplicitPrelude
 
 executable ekg-riemann-exe
   hs-source-dirs:      app

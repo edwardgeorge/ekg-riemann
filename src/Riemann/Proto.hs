@@ -3,7 +3,9 @@
   , DeriveGeneric
 #-}
 module Riemann.Proto where
+import Prelude (Float, Bool, Double, Show)
 import Data.Int
+import Data.Monoid
 import Data.ProtocolBuffers
 import Data.Text
 import GHC.Generics (Generic)
@@ -58,23 +60,39 @@ message Event {
 
 data Event
   = Event
-  { time        :: Optional 1 (Value Int64)
-  , state       :: Optional 2 (Value Text)
-  , service     :: Optional 3 (Value Text)
-  , host        :: Optional 4 (Value Text)
-  , description :: Optional 5 (Value Text)
-  , tags        :: Repeated 7 (Value Text)
-  , ttl         :: Optional 8 (Value Float)
-  , attributes  :: Repeated 9 (Message Attribute)
+  { time          :: !(Optional 1 (Value Int64))
+  , state         :: !(Optional 2 (Value Text))
+  , service       :: !(Optional 3 (Value Text))
+  , host          :: !(Optional 4 (Value Text))
+  , description   :: !(Optional 5 (Value Text))
+  , tags          :: !(Repeated 7 (Value Text))
+  , ttl           :: !(Optional 8 (Value Float))
+  , attributes    :: !(Repeated 9 (Message Attribute))
 
-  , time_micros   :: Optional 10 (Value Int64)
-  , metric_sint64 :: Optional 13 (Value (Signed Int64))
-  , metric_d      :: Optional 14 (Value Double)
-  , metric_f      :: Optional 15 (Value Float)
+  , time_micros   :: !(Optional 10 (Value Int64))
+  , metric_sint64 :: !(Optional 13 (Value (Signed Int64)))
+  , metric_d      :: !(Optional 14 (Value Double))
+  , metric_f      :: !(Optional 15 (Value Float))
   } deriving (Show, Generic)
 
 instance Encode Event
 instance Decode Event
+
+defaultEvent :: Event
+defaultEvent = Event
+               { time          = mempty
+               , state         = mempty
+               , service       = mempty
+               , host          = mempty
+               , description   = mempty
+               , tags          = mempty
+               , ttl           = mempty
+               , attributes    = mempty
+               , time_micros   = mempty
+               , metric_sint64 = mempty
+               , metric_d      = mempty
+               , metric_f      = mempty
+               }
 
 {-
 message Query {
